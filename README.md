@@ -1,36 +1,59 @@
-# The Seven of Hearts
+# 7♥ — Seven Hearts
 
-An enchanted card-romance web experience. Some cards are dealt — this one chooses you.
+A one-person swipe deck. She is the only person in it. Swipe right through
+A♥ → 7♥; the seventh card triggers the rose-petal finale. Swipe left and the
+deck rains jokers. Swipe up on any card for its hashtag detail side.
 
-Single-page static site: a full 52-card SVG deck, three card-back designs, nine rose
-ornament images, and `magic.css` — an arcane typography layer (shimmering gold titles,
-rune eyebrows, scroll reveals, floating motes, 3D card tilt, click-to-flip).
+## Run it locally
 
-## Run locally
-Open `index.html` in a browser, or serve the folder:
-
-```
+```bash
 python3 -m http.server 8000
+# open http://localhost:8000
 ```
 
-## Structure
-```
-index.html        the experience (hero, hero card flip, rose garden, back gallery)
-magic.css         all enchantment styles — opt-in classes, palette as CSS variables
+Or enable GitHub Pages (Settings → Pages → deploy from `main`) once the repo
+goes public.
+
+## Folder map
+
+```text
+index.html
+css/style.css            design system + all text magic
+js/app.js                deck logic, joker gag, petal finale
 assets/
-  cards/faces/    52 SVG card faces (7 of Hearts is the flagged hero card)
-  cards/backs/    back-midnight-rose / back-crimson-velvet / back-celestial
-  roses/          blooms, bud, long-stem, bouquet, petals, vine divider
-  manifest.json   machine-readable asset map (id -> file, suit, rank, special)
-  ART_PROMPTS.md  prompts to repaint any asset as final PNG art
+  manifest.json          ALL words + art paths — edit this, not the code
+  cards/                 joker-a/b/c.svg (card faces currently dealt from OldDemo)
+  fx/                    petal-1..5.svg, felt-table.svg, paper-grain.svg
+  meta/                  icon.svg, site.webmanifest
+OldDemo/
+  assets/                archived first-attempt art: 52 SVG faces, 3 backs, 9 roses
 ```
 
-## GitHub Pages
-Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)`.
-The site is then live at `https://<username>.github.io/seven-of-hearts/`.
-`.nojekyll` is included so asset folders serve as-is.
+## Current wiring
 
-## Swapping in final artwork
-All imagery is resolution-independent SVG placeholder art. Generate painted finals with
-`assets/ART_PROMPTS.md`, export cards at 750x1050, keep filename stems, update the
-extensions in `assets/manifest.json` — no code changes needed.
+The deck currently deals the archived SVG art: A♥–7♥ faces, the
+crimson-velvet back, and the red rose all load from `OldDemo/assets/` via
+`assets/manifest.json`. The old faces have their ranks baked in, so the live
+corner ranks stay hidden while `meta.bakedRanks` is true. Swap in your custom
+card art by dropping files into `assets/cards/` and updating the manifest
+paths; set `bakedRanks` false if your art has no ranks drawn on it.
+
+## The magic-type toolkit (css/style.css)
+
+- `.foil` — animated gold light sweep across letterforms (final message)
+- `.deal-in` — per-letter staggered deal, driven by `--i` (quips)
+- `.rank` — crimson-to-gold shimmer on numerals, `.rank.settle` spin-in on deal,
+  `.rank.big::after` twinkle spark
+- `.deboss` — engraved press effect for captions
+- `.heartbeat` — double-thump pulse on heart glyphs
+- `.wobble` — joker message tilt
+- `.chip` — glass pill with iridescent sheen sweep (hashtags)
+
+All of it honors prefers-reduced-motion with a static gold fallback.
+
+## Defaults to override
+
+- Final message lives in `finale.message` and `finale.sign` in the manifest.
+- The card back is the crimson-velvet design from the archive — swap or add
+  her monogram when you decide.
+- Zero dependencies: vanilla JS + CSS, no CDN libraries. `noindex` is set.

@@ -1,112 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Seven of Hearts</title>
-<link rel="icon" href="assets/roses/rose-red.svg" type="image/svg+xml">
-<link rel="stylesheet" href="magic.css">
-<style>
-  /* demo layout only — the magic lives in magic.css */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  section { padding: 5rem 1.5rem; max-width: 1080px; margin: 0 auto; }
-  .hero { min-height: 92vh; display: flex; flex-direction: column;
-          justify-content: center; align-items: center; gap: 1.6rem; }
-  .duo { display: flex; gap: 3rem; justify-content: center; align-items: center;
-         flex-wrap: wrap; }
-  .duo .flip { width: min(300px, 72vw); }
-  .hint { font-size: 0.95rem; opacity: 0.65; font-style: italic; text-align: center; }
-  .rose-grid { display: grid; gap: 1.4rem;
-               grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-  .rose-grid figure { background: rgba(246,236,217,0.04); border-radius: 12px;
-                      padding: 1rem; text-align: center;
-                      border: 1px solid rgba(201,162,39,0.18); }
-  .rose-grid img { width: 100%; height: 150px; object-fit: contain; }
-  .rose-grid figcaption { margin-top: 0.6rem; font-size: 0.85rem;
-                          letter-spacing: 0.14em; text-transform: uppercase;
-                          color: var(--starlight); opacity: 0.8; }
-  h2.section-name { font-family: var(--font-display); text-align: center;
-                    font-size: clamp(1.5rem, 3.4vw, 2.2rem); color: var(--arcane-gold);
-                    letter-spacing: 0.12em; margin-bottom: 2.2rem; }
-  .prose { max-width: 640px; margin: 0 auto; }
-  .prose p + p { margin-top: 1.2rem; }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>7&#9829; &middot; Seven Hearts</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#7a0e1d">
+<meta property="og:title" content="You've been dealt in.">
+<meta property="og:description" content="7&#9829; &middot; seven hearts">
+<meta property="og:image" content="assets/meta/icon.svg">
+<link rel="icon" href="assets/meta/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="assets/meta/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body class="magic-scene float-motes">
+<body>
+<header class="hud">
+  <div class="brand">7<span class="heartbeat suit">&#9829;</span></div>
+  <div class="pips" id="pips" aria-label="progress"></div>
+</header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <p class="rune-eyebrow reveal-auto">A deck of fate &amp; longing</p>
-    <h1 class="arcane-title reveal-auto delay-1">The Seven<br>of Hearts</h1>
-    <p class="whisper reveal-auto delay-2">Some cards are dealt. This one <span class="sparkle">chooses</span> you.</p>
-    <a class="arcane-btn reveal-auto delay-3" href="#the-card">Draw your card</a>
+<main class="table">
+  <section class="intro" id="intro">
+    <div class="card intro-card" id="introCard">
+      <div class="flip"><div class="face front"><img class="art" id="introBack" alt="Card back"></div></div>
+    </div>
+    <p class="intro-hint deboss">tap to flip</p>
   </section>
 
-  <div class="ornament-divider reveal"><img src="assets/roses/vine-divider.svg" alt="rose vine"></div>
+  <section class="deck" id="deck" hidden></section>
 
-  <!-- THE CARD -->
-  <section id="the-card">
-    <h2 class="section-name reveal">The Hero Card</h2>
-    <div class="duo">
-      <div class="flip reveal" onclick="this.classList.toggle('flipped')">
-        <div class="flip-inner">
-          <div class="flip-face flip-front"><img src="assets/cards/faces/7_of_hearts.svg" alt="Seven of Hearts"></div>
-          <div class="flip-face flip-back"><img src="assets/cards/backs/back-midnight-rose.svg" alt="Card back — midnight rose"></div>
-        </div>
-      </div>
-      <div class="prose">
-        <p class="illuminated reveal">Legend says the Seven of Hearts was never printed — it appears
-        only when the deck takes an interest in the one who shuffles it. Its twin roses bloom for
-        two people at once, and its gold halo marks the moment chance becomes choice.</p>
-        <p class="hint reveal" style="margin-top:1.4rem">Click the card to turn it over.</p>
-      </div>
+  <div class="joker-overlay" id="jokerOverlay" hidden>
+    <div class="joker-rain" id="jokerRain"></div>
+    <div class="joker-msg wobble" id="jokerMsg"></div>
+  </div>
+
+  <section class="finale" id="finale" hidden>
+    <canvas id="petals"></canvas>
+    <div class="final-card" id="finalCard">
+      <img id="roseHero" class="rose" alt="A rose">
+      <p class="final-msg foil" id="finalMsg"></p>
+      <p class="final-sign deboss" id="finalSign"></p>
+      <button class="replay" id="replay">Shuffle &amp; deal again</button>
     </div>
   </section>
+</main>
 
-  <div class="ornament-divider reveal"><img src="assets/roses/vine-divider.svg" alt="rose vine"></div>
-
-  <!-- ROSE GALLERY -->
-  <section>
-    <h2 class="section-name reveal">The Garden</h2>
-    <div class="rose-grid">
-      <figure class="reveal"><img src="assets/roses/rose-red.svg" alt="Red rose"><figcaption>Crimson</figcaption></figure>
-      <figure class="reveal"><img src="assets/roses/rose-blush.svg" alt="Blush rose"><figcaption>Blush</figcaption></figure>
-      <figure class="reveal"><img src="assets/roses/rose-ivory.svg" alt="Ivory rose"><figcaption>Ivory</figcaption></figure>
-      <figure class="reveal"><img src="assets/roses/rose-gold.svg" alt="Gold rose"><figcaption>Gilded</figcaption></figure>
-      <figure class="reveal"><img src="assets/roses/rosebud.svg" alt="Rosebud"><figcaption>The Bud</figcaption></figure>
-      <figure class="reveal"><img src="assets/roses/rose-long-stem.svg" alt="Long stem rose"><figcaption>The Gift</figcaption></figure>
-      <figure class="reveal"><img src="assets/roses/bouquet.svg" alt="Bouquet"><figcaption>The Bouquet</figcaption></figure>
-      <figure class="reveal"><img src="assets/roses/petals-scatter.svg" alt="Scattered petals"><figcaption>The Fall</figcaption></figure>
-    </div>
-  </section>
-
-  <!-- BACK DESIGNS -->
-  <section>
-    <h2 class="section-name reveal">Three Backs, Three Moods</h2>
-    <div class="duo">
-      <div class="enchanted-card reveal" style="width:min(240px,60vw)"><img src="assets/cards/backs/back-midnight-rose.svg" alt="Midnight rose back"></div>
-      <div class="enchanted-card reveal" style="width:min(240px,60vw)"><img src="assets/cards/backs/back-crimson-velvet.svg" alt="Crimson velvet back"></div>
-      <div class="enchanted-card reveal" style="width:min(240px,60vw)"><img src="assets/cards/backs/back-celestial.svg" alt="Celestial back"></div>
-    </div>
-  </section>
-
-<script>
-  // scroll reveals
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('inview'); io.unobserve(e.target); } });
-  }, { threshold: 0.18 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  // gentle pointer tilt on enchanted cards
-  document.querySelectorAll('.enchanted-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `translateY(-10px) rotateX(${-y * 10}deg) rotateY(${x * 12}deg)`;
-    });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-  });
-</script>
+<div class="toast" id="toast" hidden></div>
+<script src="js/app.js"></script>
 </body>
 </html>

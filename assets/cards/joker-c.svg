@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="350" viewBox="0 0 250 350">
+  <rect width="250" height="350" rx="18" fill="#3a184a"/>
+  <rect x="9" y="9" width="232" height="332" rx="12" fill="none" stroke="#c9a227" stroke-width="3"/>
+  <text x="125" y="82" text-anchor="middle" font-family="Georgia,serif" font-size="52" fill="#c9a227">&#x2605;</text>
+  <text x="125" y="148" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="32" fill="#e8b44c">J</text>
+  <text x="125" y="184" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="32" fill="#e8b44c">O</text>
+  <text x="125" y="220" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="32" fill="#e8b44c">K</text>
+  <text x="125" y="256" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="32" fill="#e8b44c">E</text>
+  <text x="125" y="292" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="32" fill="#e8b44c">R</text>
+  <text x="125" y="338" text-anchor="middle" font-family="Georgia,serif" font-size="30" fill="#c9a227">&#x2605;</text>
+</svg>

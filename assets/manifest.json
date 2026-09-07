@@ -2,24 +2,25 @@
   "meta": {
     "title": "7♥ — Seven Hearts",
     "stat": "Reception MVP · ♥♥♥♥♥♥♥ / 7",
-    "footer": "Deck of 7 · No other matches exist · This is the whole app."
+    "footer": "Deck of 7 · No other matches exist · This is the whole app.",
+    "bakedRanks": true
   },
-  "back": "assets/cards/back.jpg",
+  "back": "OldDemo/assets/back-crimson-velvet.svg",
   "jokers": [
-    "assets/cards/joker-a.jpg",
-    "assets/cards/joker-b.jpg",
-    "assets/cards/joker-c.jpg"
+    "assets/cards/joker-a.svg",
+    "assets/cards/joker-b.svg",
+    "assets/cards/joker-c.svg"
   ],
   "fx": {
-    "felt": "assets/fx/felt-table.jpg",
-    "grain": "assets/fx/paper-grain.png",
-    "rose": "assets/fx/rose-hero.png",
+    "felt": "assets/fx/felt-table.svg",
+    "grain": "assets/fx/paper-grain.svg",
+    "rose": "OldDemo/assets/rose-red.svg",
     "petals": [
-      "assets/fx/petal-1.png",
-      "assets/fx/petal-2.png",
-      "assets/fx/petal-3.png",
-      "assets/fx/petal-4.png",
-      "assets/fx/petal-5.png"
+      "assets/fx/petal-1.svg",
+      "assets/fx/petal-2.svg",
+      "assets/fx/petal-3.svg",
+      "assets/fx/petal-4.svg",
+      "assets/fx/petal-5.svg"
     ]
   },
   "finale": {
@@ -39,43 +40,43 @@
   "cards": [
     {
       "rank": "A",
-      "img": "assets/cards/face-01-hearts.jpg",
+      "img": "OldDemo/assets/ace_of_hearts.svg",
       "tag": "#FirstTimeCEO",
       "quip": "Boss of the boardroom, queen of the reception."
     },
     {
       "rank": "2",
-      "img": "assets/cards/face-02-hearts.jpg",
+      "img": "OldDemo/assets/2_of_hearts.svg",
       "tag": "#WitConfirmed",
       "quip": "Five minutes in: certification renewed."
     },
     {
       "rank": "3",
-      "img": "assets/cards/face-03-hearts.jpg",
+      "img": "OldDemo/assets/3_of_hearts.svg",
       "tag": "#EyesThatBeLashin",
       "quip": "Objection overruled. The lashes stand."
     },
     {
       "rank": "4",
-      "img": "assets/cards/face-04-hearts.jpg",
+      "img": "OldDemo/assets/4_of_hearts.svg",
       "tag": "#CalculusOfCuteitude",
       "quip": "Ran the numbers. The math checks out."
     },
     {
       "rank": "5",
-      "img": "assets/cards/face-05-hearts.jpg",
+      "img": "OldDemo/assets/5_of_hearts.svg",
       "tag": "#GorgeousAndCurious",
       "quip": "A rare and dangerous combination."
     },
     {
       "rank": "6",
-      "img": "assets/cards/face-06-hearts.jpg",
+      "img": "OldDemo/assets/6_of_hearts.svg",
       "tag": "#TakingTheReigns",
       "quip": "Courage looks good on you."
     },
     {
       "rank": "7",
-      "img": "assets/cards/face-07-hearts.jpg",
+      "img": "OldDemo/assets/7_of_hearts.svg",
       "tag": "#ExceptionalCompany",
       "quip": "Of all the cards in the deck…"
     }

@@ -1,7 +1,5 @@
 "use strict";
 
-const DEFAULT_MANIFEST = {"meta": {"title": "7♥ — Seven Hearts", "stat": "Reception MVP · ♥♥♥♥♥♥♥ / 7", "footer": "Deck of 7 · No other matches exist · This is the whole app."}, "back": "assets/cards/back.jpg", "jokers": ["assets/cards/joker-a.jpg", "assets/cards/joker-b.jpg", "assets/cards/joker-c.jpg"], "fx": {"felt": "assets/fx/felt-table.jpg", "grain": "assets/fx/paper-grain.png", "rose": "assets/fx/rose-hero.png", "petals": ["assets/fx/petal-1.png", "assets/fx/petal-2.png", "assets/fx/petal-3.png", "assets/fx/petal-4.png", "assets/fx/petal-5.png"]}, "finale": {"message": "The magician made your card appear in his pocket. You made the whole evening look effortless. Thank you.", "sign": "— your plus-one ♥"}, "jokerLines": ["You must be a joker! 🃏", "The deck has voted. Motion denied.", "Jokers only. Try the other way →"], "toasts": ["Nice try.", "Still no.", "The hearts are watching."], "cards": [{"rank": "A", "img": "assets/cards/face-01-hearts.jpg", "tag": "#FirstTimeCEO", "quip": "Boss of the boardroom, queen of the reception."}, {"rank": "2", "img": "assets/cards/face-02-hearts.jpg", "tag": "#WitConfirmed", "quip": "Five minutes in: certification renewed."}, {"rank": "3", "img": "assets/cards/face-03-hearts.jpg", "tag": "#EyesThatBeLashin", "quip": "Objection overruled. The lashes stand."}, {"rank": "4", "img": "assets/cards/face-04-hearts.jpg", "tag": "#CalculusOfCuteitude", "quip": "Ran the numbers. The math checks out."}, {"rank": "5", "img": "assets/cards/face-05-hearts.jpg", "tag": "#GorgeousAndCurious", "quip": "A rare and dangerous combination."}, {"rank": "6", "img": "assets/cards/face-06-hearts.jpg", "tag": "#TakingTheReigns", "quip": "Courage looks good on you."}, {"rank": "7", "img": "assets/cards/face-07-hearts.jpg", "tag": "#ExceptionalCompany", "quip": "Of all the cards in the deck…"}]};
-
 const $ = s => document.querySelector(s);
 const els = {
   pips: $("#pips"), deck: $("#deck"), intro: $("#intro"), introCard: $("#introCard"),
@@ -16,8 +14,8 @@ let M = null, idx = 0, gagCount = 0, busy = false, drag = null;
 let cardEls = [], petalImgs = [];
 
 async function boot(){
-  try { const r = await fetch("assets/manifest.json", {cache:"no-store"}); M = await r.json(); }
-  catch(e) { M = DEFAULT_MANIFEST; }
+  const r = await fetch("assets/manifest.json", {cache:"no-store"});
+  M = await r.json();
   els.introBack.src = M.back;
   els.roseHero.src = M.fx.rose;
   els.finalMsg.textContent = M.finale.message;
@@ -49,14 +47,17 @@ function start(){
 }
 
 function cardEl(c){
+  const baked = M.meta && M.meta.bakedRanks;
+  const corners = baked ? "" :
+    '<div class="corner tl"><span class="rank">' + c.rank + '</span><span class="pip">\u2665</span></div>' +
+    '<div class="corner br"><span class="rank">' + c.rank + '</span><span class="pip">\u2665</span></div>';
   const el = document.createElement("article");
   el.className = "card under";
   el.innerHTML =
     '<div class="flip">' +
       '<div class="face front">' +
         '<img class="art" src="' + c.img + '" alt="' + c.rank + ' of hearts">' +
-        '<div class="corner tl"><span class="rank">' + c.rank + '</span><span class="pip">\u2665</span></div>' +
-        '<div class="corner br"><span class="rank">' + c.rank + '</span><span class="pip">\u2665</span></div>' +
+        corners +
         '<div class="stamp yes">DEALT \u2665</div>' +
         '<div class="stamp no">JOKER?</div>' +
         '<div class="chip tag">' + c.tag + '</div>' +
