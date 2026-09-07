@@ -5,7 +5,7 @@ const DEFAULT_MANIFEST = {"meta": {"title": "7♥ — Seven Hearts", "stat": "Re
 const $ = s => document.querySelector(s);
 const els = {
   pips: $("#pips"), deck: $("#deck"), intro: $("#intro"), introCard: $("#introCard"),
-  introBack: $("#introBack"), introFace: $("#introFace"),
+  introBack: $("#introBack"), introFace: $("#introFace"), caption: $("#caption"),
   jokerOverlay: $("#jokerOverlay"), jokerRain: $("#jokerRain"),
   jokerMsg: $("#jokerMsg"), finale: $("#finale"), petals: $("#petals"),
   finalCard: $("#finalCard"), finalMsg: $("#finalMsg"), finalSign: $("#finalSign"),
@@ -100,11 +100,6 @@ function cardEl(c){
         corners +
         '<div class="stamp yes">DEALT \u2665</div>' +
         '<div class="stamp no">JOKER?</div>' +
-        '<div class="caption">' +
-          '<div class="chip tag">' + c.tag + '</div>' +
-          '<p class="quip-front">' + c.quip + '</p>' +
-          '<p class="hintline">swipe &middot; or use the buttons</p>' +
-        '</div>' +
       '</div>' +
       '<div class="face backface">' +
         '<div class="rank big">' + c.rank + '<span class="suit">\u2665</span></div>' +
@@ -116,6 +111,15 @@ function cardEl(c){
     '</div>';
   attachGestures(el);
   return el;
+}
+
+function updateCaption(){
+  const c = M.cards[idx]; if(!c) return;
+  els.caption.innerHTML =
+    '<div class="chip tag">' + c.tag + '</div>' +
+    '<p class="quip-front">' + c.quip + '</p>';
+  els.caption.classList.remove("reveal"); void els.caption.offsetWidth;
+  els.caption.classList.add("reveal");
 }
 
 function attachGestures(el){
@@ -179,6 +183,7 @@ window.addEventListener("mouseup", ()=>{ if (g && g.mode === "mouse") gEnd(false
 
 function buildDeck(){
   els.deck.innerHTML = "";
+  els.deck.appendChild(els.caption);
   cardEls = M.cards.map(cardEl);
   cardEls.forEach(el => els.deck.appendChild(el));
 }
@@ -198,6 +203,7 @@ function dealAnim(){
   top.querySelectorAll(".rank").forEach(r=>{
     r.classList.remove("settle"); void r.offsetWidth; r.classList.add("settle");
   });
+  updateCaption();
 }
 
 function dealIn(el){
