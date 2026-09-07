@@ -9,12 +9,14 @@ const els = {
   jokerOverlay: $("#jokerOverlay"), jokerRain: $("#jokerRain"),
   jokerMsg: $("#jokerMsg"), finale: $("#finale"), petals: $("#petals"),
   finalCard: $("#finalCard"), finalMsg: $("#finalMsg"), finalSign: $("#finalSign"),
-  roseHero: $("#roseHero"), replay: $("#replay"), toast: $("#toast")
+  roseHero: $("#roseHero"), replay: $("#replay"), toast: $("#toast"),
+  controls: $("#controls"), btnNo: $("#btnNo"), btnInfo: $("#btnInfo"), btnYes: $("#btnYes")
 };
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-let M = null, idx = 0, gagCount = 0, busy = false, drag = null;
+let M = null, idx = 0, gagCount = 0, busy = false;
 let cardEls = [], petalImgs = [];
+let g = null, lastTouch = 0;
 
 async function boot(){
   try { const r = await fetch("assets/manifest.json", {cache:"no-store"}); M = await r.json(); }
@@ -24,7 +26,7 @@ async function boot(){
   els.roseHero.src = M.fx.rose;
   els.finalMsg.textContent = M.finale.message;
   els.finalSign.textContent = M.finale.sign;
-  buildPips(); preload();
+  buildPips(); preload(); wireControls(); wireKeyboard();
   els.introCard.addEventListener("click", onIntroTap);
   els.replay.addEventListener("click", reset);
 }
@@ -51,9 +53,35 @@ function preload(){
   petalImgs = M.fx.petals.map(s => { const im = new Image(); im.src = s; return im; });
 }
 
+function wireControls(){
+  els.btnYes.addEventListener("click", ()=>{ if(!busy && cardEls[idx]) fling(cardEls[idx]); });
+  els.btnNo.addEventListener("click", ()=>{ if(!busy && cardEls[idx]) joker(); });
+  els.btnInfo.addEventListener("click", ()=>{
+    if (busy) return;
+    const el = cardEls[idx]; if(!el) return;
+    if (el.classList.contains("flipped")) el.classList.remove("flipped");
+    else flipUp(el);
+  });
+}
+
+function wireKeyboard(){
+  window.addEventListener("keydown", e=>{
+    if (els.deck.hidden || busy) return;
+    const el = cardEls[idx]; if(!el) return;
+    if (e.key === "ArrowRight") fling(el);
+    else if (e.key === "ArrowLeft") joker();
+    else if (e.key === "ArrowUp" || e.key === " " || e.key === "i"){
+      e.preventDefault();
+      if (el.classList.contains("flipped")) el.classList.remove("flipped"); else flipUp(el);
+    }
+    else if (e.key === "Escape") el.classList.remove("flipped");
+  });
+}
+
 function start(){
   els.intro.hidden = true;
   els.deck.hidden = false;
+  els.controls.hidden = false;
   buildDeck(); layout(); dealAnim();
   busy = false;
 }
@@ -83,12 +111,68 @@ function cardEl(c){
         '<p class="foot deboss">' + M.meta.footer + '</p>' +
       '</div>' +
     '</div>';
-  el.addEventListener("pointerdown", onDown);
-  el.addEventListener("pointermove", onMove);
-  el.addEventListener("pointerup", onUp);
-  el.addEventListener("pointercancel", onUp);
+  attachGestures(el);
   return el;
 }
+
+function attachGestures(el){
+  el.addEventListener("touchstart", e=>{
+    lastTouch = Date.now();
+    gStart(el, e.changedTouches[0].clientX, e.changedTouches[0].clientY, "touch");
+  }, {passive:true});
+  el.addEventListener("mousedown", e=>{
+    if (Date.now() - lastTouch < 700) return;
+    gStart(el, e.clientX, e.clientY, "mouse");
+  });
+}
+
+function gStart(el, x, y, mode){
+  if (g || busy || !el.classList.contains("top")) return;
+  if (el.classList.contains("flipped")){ el.classList.remove("flipped"); return; }
+  g = {el, x0:x, y0:y, dx:0, dy:0, moved:false, mode};
+  el.classList.add("drag");
+}
+
+function gMove(x, y){
+  if (!g) return;
+  g.dx = x - g.x0; g.dy = y - g.y0;
+  if (Math.abs(g.dx) + Math.abs(g.dy) > 10) g.moved = true;
+  g.el.style.transform = "translate(" + g.dx + "px," + g.dy + "px) rotate(" + (g.dx/14) + "deg)";
+  g.el.querySelector(".stamp.yes").style.opacity = Math.max(0, Math.min(g.dx/90, 1));
+  g.el.querySelector(".stamp.no").style.opacity = Math.max(0, Math.min(-g.dx/90, 1));
+}
+
+function gEnd(cancelled){
+  if (!g) return;
+  const {el, dx, dy, moved} = g; g = null;
+  el.classList.remove("drag");
+  el.querySelector(".stamp.yes").style.opacity = 0;
+  el.querySelector(".stamp.no").style.opacity = 0;
+  el.style.transform = "";
+  if (cancelled) return;
+  if (!moved){
+    if (el.classList.contains("flipped")) el.classList.remove("flipped"); else flipUp(el);
+    return;
+  }
+  if (dy < -80 && Math.abs(dy) > Math.abs(dx)*1.1){ flipUp(el); return; }
+  if (dx > 90){ fling(el); return; }
+  if (dx < -90){ joker(); return; }
+}
+
+window.addEventListener("touchmove", e=>{
+  if (!g || g.mode !== "touch") return;
+  e.preventDefault();
+  gMove(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+}, {passive:false});
+window.addEventListener("touchend", e=>{
+  if (!g || g.mode !== "touch") return;
+  const t = e.changedTouches[0];
+  if (t) gMove(t.clientX, t.clientY);
+  gEnd(false);
+});
+window.addEventListener("touchcancel", ()=>{ gEnd(true); });
+window.addEventListener("mousemove", e=>{ if (g && g.mode === "mouse") gMove(e.clientX, e.clientY); });
+window.addEventListener("mouseup", ()=>{ if (g && g.mode === "mouse") gEnd(false); });
 
 function buildDeck(){
   els.deck.innerHTML = "";
@@ -121,33 +205,6 @@ function dealIn(el){
     s.textContent = ch; s.style.setProperty("--i", i);
     el.appendChild(s);
   });
-}
-
-function onDown(e){
-  if (busy || !e.currentTarget.classList.contains("top")) return;
-  const el = e.currentTarget;
-  if (el.classList.contains("flipped")){ el.classList.remove("flipped"); return; }
-  el.setPointerCapture(e.pointerId);
-  drag = {el, x0:e.clientX, y0:e.clientY, dx:0, dy:0};
-  el.classList.add("drag");
-}
-function onMove(e){
-  if (!drag) return;
-  drag.dx = e.clientX - drag.x0; drag.dy = e.clientY - drag.y0;
-  drag.el.style.transform = "translate(" + drag.dx + "px," + drag.dy + "px) rotate(" + (drag.dx/14) + "deg)";
-  drag.el.querySelector(".stamp.yes").style.opacity = Math.max(0, Math.min(drag.dx/90, 1));
-  drag.el.querySelector(".stamp.no").style.opacity = Math.max(0, Math.min(-drag.dx/90, 1));
-}
-function onUp(){
-  if (!drag) return;
-  const {el, dx, dy} = drag; drag = null;
-  el.classList.remove("drag");
-  el.querySelector(".stamp.yes").style.opacity = 0;
-  el.querySelector(".stamp.no").style.opacity = 0;
-  el.style.transform = "";
-  if (dy < -90 && Math.abs(dy) > Math.abs(dx)*1.15){ flipUp(el); return; }
-  if (dx > 100){ fling(el); return; }
-  if (dx < -100){ joker(); return; }
 }
 
 function flipUp(el){
@@ -215,6 +272,7 @@ function toast(t){
 
 function finale(){
   els.deck.hidden = true;
+  els.controls.hidden = true;
   els.finale.hidden = false;
   if (REDUCED){ els.finalCard.classList.add("show"); return; }
   burst();
@@ -269,6 +327,7 @@ function reset(){
   els.finalCard.classList.remove("show");
   els.petals.style.opacity = 1;
   els.deck.hidden = true;
+  els.controls.hidden = true;
   els.intro.hidden = false;
   els.introCard.classList.remove("flipped");
   setPips();
