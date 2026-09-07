@@ -100,8 +100,11 @@ function cardEl(c){
         corners +
         '<div class="stamp yes">DEALT \u2665</div>' +
         '<div class="stamp no">JOKER?</div>' +
-        '<div class="chip tag">' + c.tag + '</div>' +
-        '<div class="hint">\u2190 dare &middot; \u2191 details &middot; keep \u2192</div>' +
+        '<div class="caption">' +
+          '<div class="chip tag">' + c.tag + '</div>' +
+          '<p class="quip-front">' + c.quip + '</p>' +
+          '<p class="hintline">swipe &middot; or use the buttons</p>' +
+        '</div>' +
       '</div>' +
       '<div class="face backface">' +
         '<div class="rank big">' + c.rank + '<span class="suit">\u2665</span></div>' +
