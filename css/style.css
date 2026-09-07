@@ -1,3 +1,5 @@
+[hidden]{display:none !important}
+
 :root{
   --cream:#f7f1e3; --crimson:#9c1422; --crimson-d:#7a0e1d;
   --gold:#c9a227; --gold-l:#e8b44c; --felt:#14402c;
@@ -15,7 +17,7 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
 
 /* ---------- HUD ---------- */
 .hud{position:fixed; top:0; left:0; right:0; z-index:30; display:flex;
-  justify-content:space-between; align-items:center; padding:14px 18px}
+  justify-content:space-between; align-items:center; padding:14px 18px; pointer-events:none}
 .brand{font-family:var(--serif); font-weight:700; font-size:1.5rem; color:var(--gold-l);
   text-shadow:0 1px 2px rgba(0,0,0,.5)}
 .suit{color:var(--crimson); text-shadow:0 0 8px rgba(232,180,76,.45)}
@@ -30,7 +32,14 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
 .card{position:absolute; width:min(78vw,340px); aspect-ratio:5/7;
   touch-action:none; user-select:none; -webkit-user-select:none;
   transition:transform .38s cubic-bezier(.25,.9,.3,1.25)}
-.card.drag{transition:none}
+.card.top{cursor:grab}
+.card.drag{transition:none; cursor:grabbing}
+.card.deny{animation:denyShake .55s ease}
+@keyframes denyShake{
+  0%,100%{transform:translateX(0) rotate(0)}
+  20%{transform:translateX(-16px) rotate(-2.5deg)}
+  45%{transform:translateX(11px) rotate(1.6deg)}
+  70%{transform:translateX(-7px) rotate(-.9deg)}}
 .flip{position:absolute; inset:0; transform-style:preserve-3d; transition:transform .55s ease}
 .card.flipped .flip{transform:rotateY(180deg)}
 .face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
@@ -41,6 +50,7 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
 .backface{transform:rotateY(180deg); background:var(--cream); color:var(--crimson-d);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   gap:14px; padding:26px; text-align:center}
+.backface.intro-ace{display:block; padding:0}
 .card.next{transform:scale(.95) translateY(12px); filter:brightness(.9)}
 .card.under{display:none}
 .card.gone{display:none}
@@ -126,7 +136,8 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
 
 /* ---------- Joker gag ---------- */
 .joker-overlay{position:fixed; inset:0; z-index:40; background:rgba(16,8,20,.82);
-  display:grid; place-items:center}
+  display:grid; place-items:center; opacity:0; transition:opacity .35s ease}
+.joker-overlay.show{opacity:1}
 .joker-rain img{position:absolute; top:-150px; width:96px; border-radius:12px;
   box-shadow:0 8px 20px rgba(0,0,0,.5);
   animation:jfall var(--d) cubic-bezier(.45,.05,.6,1) var(--dl) both}
@@ -166,6 +177,6 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
 @media (prefers-reduced-motion: reduce){
   .foil,.rank{animation:none; background-position:50% 0}
   .deal-in span{animation:none; opacity:1; transform:none}
-  .heartbeat,.wobble,.rank.big::after,.chip::after,.intro-card{animation:none}
+  .heartbeat,.wobble,.rank.big::after,.chip::after,.intro-card,.card.deny{animation:none}
   .joker-rain img{animation-duration:.5s}
 }

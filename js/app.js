@@ -5,7 +5,8 @@ const DEFAULT_MANIFEST = {"meta": {"title": "7♥ — Seven Hearts", "stat": "Re
 const $ = s => document.querySelector(s);
 const els = {
   pips: $("#pips"), deck: $("#deck"), intro: $("#intro"), introCard: $("#introCard"),
-  introBack: $("#introBack"), jokerOverlay: $("#jokerOverlay"), jokerRain: $("#jokerRain"),
+  introBack: $("#introBack"), introFace: $("#introFace"),
+  jokerOverlay: $("#jokerOverlay"), jokerRain: $("#jokerRain"),
   jokerMsg: $("#jokerMsg"), finale: $("#finale"), petals: $("#petals"),
   finalCard: $("#finalCard"), finalMsg: $("#finalMsg"), finalSign: $("#finalSign"),
   roseHero: $("#roseHero"), replay: $("#replay"), toast: $("#toast")
@@ -19,12 +20,20 @@ async function boot(){
   try { const r = await fetch("assets/manifest.json", {cache:"no-store"}); M = await r.json(); }
   catch(e) { M = DEFAULT_MANIFEST; }
   els.introBack.src = M.back;
+  els.introFace.src = M.cards[0].img;
   els.roseHero.src = M.fx.rose;
   els.finalMsg.textContent = M.finale.message;
   els.finalSign.textContent = M.finale.sign;
   buildPips(); preload();
-  els.introCard.addEventListener("click", start);
+  els.introCard.addEventListener("click", onIntroTap);
   els.replay.addEventListener("click", reset);
+}
+
+function onIntroTap(){
+  if (busy) return;
+  busy = true;
+  els.introCard.classList.add("flipped");
+  setTimeout(start, REDUCED ? 0 : 620);
 }
 
 function buildPips(){
@@ -46,6 +55,7 @@ function start(){
   els.intro.hidden = true;
   els.deck.hidden = false;
   buildDeck(); layout(); dealAnim();
+  busy = false;
 }
 
 function cardEl(c){
@@ -160,6 +170,11 @@ function fling(el){
 
 function joker(){
   busy = true;
+  const top = cardEls[idx];
+  if (top && !REDUCED){
+    top.classList.add("deny");
+    setTimeout(()=> top.classList.remove("deny"), 580);
+  }
   els.jokerMsg.textContent = M.jokerLines[Math.min(gagCount, M.jokerLines.length-1)];
   els.jokerRain.innerHTML = "";
   for(let i=0;i<18;i++){
@@ -172,13 +187,20 @@ function joker(){
     im.style.setProperty("--r", (Math.random()*520 - 260) + "deg");
     els.jokerRain.appendChild(im);
   }
-  els.jokerOverlay.hidden = false;
+  const t0 = REDUCED ? 0 : 480;
   setTimeout(()=>{
-    els.jokerOverlay.hidden = true;
-    els.jokerRain.innerHTML = "";
+    els.jokerOverlay.hidden = false;
+    requestAnimationFrame(()=> els.jokerOverlay.classList.add("show"));
+  }, t0);
+  setTimeout(()=>{
+    els.jokerOverlay.classList.remove("show");
+    setTimeout(()=>{
+      els.jokerOverlay.hidden = true;
+      els.jokerRain.innerHTML = "";
+    }, 400);
     toast(M.toasts[Math.min(gagCount, M.toasts.length-1)]);
     gagCount++; busy = false;
-  }, 2500);
+  }, t0 + 2500);
 }
 
 function toast(t){
@@ -211,7 +233,7 @@ function burst(){
     P.push({x:cx, y:cy, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-4,
       rot:Math.random()*6.28, vr:(Math.random()-.5)*.15,
       img:petalImgs[i % petalImgs.length], s:.35+Math.random()*.55,
-      ph:Math.random()*6.28, landed:false});
+      ph:Math.random()*6.28, emo:(i % 6 === 0), landed:false});
   }
   let t = 0;
   (function frame(){
@@ -226,8 +248,14 @@ function burst(){
         alive = true;
       }
       ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
-      const w = 110*p.s;
-      if (p.img.complete) ctx.drawImage(p.img, -w/2, -w/2, w, w);
+      if (p.emo){
+        ctx.font = Math.round(30 + 26*p.s) + "px Georgia,serif";
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText("\u{1F339}", 0, 0);
+      } else {
+        const w = 110*p.s;
+        if (p.img.complete && p.img.naturalWidth) ctx.drawImage(p.img, -w/2, -w/2, w, w);
+      }
       ctx.restore();
     }
     if (alive && t < 900) requestAnimationFrame(frame);
@@ -242,6 +270,7 @@ function reset(){
   els.petals.style.opacity = 1;
   els.deck.hidden = true;
   els.intro.hidden = false;
+  els.introCard.classList.remove("flipped");
   setPips();
 }
 
