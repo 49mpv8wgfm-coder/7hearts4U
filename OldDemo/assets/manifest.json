@@ -1,83 +1,430 @@
 {
-  "meta": {
-    "title": "7♥ — Seven Hearts",
-    "stat": "Reception MVP · ♥♥♥♥♥♥♥ / 7",
-    "footer": "Deck of 7 · No other matches exist · This is the whole app."
+  "deck": "Seven of Hearts \u2014 romance deck assets",
+  "generated": "2026-09-06",
+  "format": "SVG, resolution-independent. To swap in AI art: export PNG at 750x1050 (cards) / 1200x1200 (roses), keep the same filename stem, update the extension here.",
+  "palette": {
+    "gold": "#c9a227",
+    "crimson": "#b3122f",
+    "midnight": "#0d0b1e",
+    "parchment": "#f6ecd9"
   },
-  "back": "assets/cards/back.jpg",
-  "jokers": [
-    "assets/cards/joker-a.jpg",
-    "assets/cards/joker-b.jpg",
-    "assets/cards/joker-c.jpg"
-  ],
-  "fx": {
-    "felt": "assets/fx/felt-table.jpg",
-    "grain": "assets/fx/paper-grain.png",
-    "rose": "assets/fx/rose-hero.png",
-    "petals": [
-      "assets/fx/petal-1.png",
-      "assets/fx/petal-2.png",
-      "assets/fx/petal-3.png",
-      "assets/fx/petal-4.png",
-      "assets/fx/petal-5.png"
-    ]
-  },
-  "finale": {
-    "message": "The magician made your card appear in his pocket. You made the whole evening look effortless. Thank you.",
-    "sign": "— your plus-one ♥"
-  },
-  "jokerLines": [
-    "You must be a joker! 🃏",
-    "The deck has voted. Motion denied.",
-    "Jokers only. Try the other way →"
-  ],
-  "toasts": [
-    "Nice try.",
-    "Still no.",
-    "The hearts are watching."
-  ],
   "cards": [
     {
-      "rank": "A",
-      "img": "assets/cards/face-01-hearts.jpg",
-      "tag": "#FirstTimeCEO",
-      "quip": "Boss of the boardroom, queen of the reception."
+      "id": "AH",
+      "rank": "ace",
+      "suit": "hearts",
+      "file": "cards/faces/ace_of_hearts.svg",
+      "special": false
     },
     {
+      "id": "2H",
       "rank": "2",
-      "img": "assets/cards/face-02-hearts.jpg",
-      "tag": "#WitConfirmed",
-      "quip": "Five minutes in: certification renewed."
+      "suit": "hearts",
+      "file": "cards/faces/2_of_hearts.svg",
+      "special": false
     },
     {
+      "id": "3H",
       "rank": "3",
-      "img": "assets/cards/face-03-hearts.jpg",
-      "tag": "#EyesThatBeLashin",
-      "quip": "Objection overruled. The lashes stand."
+      "suit": "hearts",
+      "file": "cards/faces/3_of_hearts.svg",
+      "special": false
     },
     {
+      "id": "4H",
       "rank": "4",
-      "img": "assets/cards/face-04-hearts.jpg",
-      "tag": "#CalculusOfCuteitude",
-      "quip": "Ran the numbers. The math checks out."
+      "suit": "hearts",
+      "file": "cards/faces/4_of_hearts.svg",
+      "special": false
     },
     {
+      "id": "5H",
       "rank": "5",
-      "img": "assets/cards/face-05-hearts.jpg",
-      "tag": "#GorgeousAndCurious",
-      "quip": "A rare and dangerous combination."
+      "suit": "hearts",
+      "file": "cards/faces/5_of_hearts.svg",
+      "special": false
     },
     {
+      "id": "6H",
       "rank": "6",
-      "img": "assets/cards/face-06-hearts.jpg",
-      "tag": "#TakingTheReigns",
-      "quip": "Courage looks good on you."
+      "suit": "hearts",
+      "file": "cards/faces/6_of_hearts.svg",
+      "special": false
     },
     {
+      "id": "7H",
       "rank": "7",
-      "img": "assets/cards/face-07-hearts.jpg",
-      "tag": "#ExceptionalCompany",
-      "quip": "Of all the cards in the deck…"
+      "suit": "hearts",
+      "file": "cards/faces/7_of_hearts.svg",
+      "special": true
+    },
+    {
+      "id": "8H",
+      "rank": "8",
+      "suit": "hearts",
+      "file": "cards/faces/8_of_hearts.svg",
+      "special": false
+    },
+    {
+      "id": "9H",
+      "rank": "9",
+      "suit": "hearts",
+      "file": "cards/faces/9_of_hearts.svg",
+      "special": false
+    },
+    {
+      "id": "10H",
+      "rank": "10",
+      "suit": "hearts",
+      "file": "cards/faces/10_of_hearts.svg",
+      "special": false
+    },
+    {
+      "id": "JH",
+      "rank": "jack",
+      "suit": "hearts",
+      "file": "cards/faces/jack_of_hearts.svg",
+      "special": false
+    },
+    {
+      "id": "QH",
+      "rank": "queen",
+      "suit": "hearts",
+      "file": "cards/faces/queen_of_hearts.svg",
+      "special": false
+    },
+    {
+      "id": "KH",
+      "rank": "king",
+      "suit": "hearts",
+      "file": "cards/faces/king_of_hearts.svg",
+      "special": false
+    },
+    {
+      "id": "AD",
+      "rank": "ace",
+      "suit": "diamonds",
+      "file": "cards/faces/ace_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "2D",
+      "rank": "2",
+      "suit": "diamonds",
+      "file": "cards/faces/2_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "3D",
+      "rank": "3",
+      "suit": "diamonds",
+      "file": "cards/faces/3_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "4D",
+      "rank": "4",
+      "suit": "diamonds",
+      "file": "cards/faces/4_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "5D",
+      "rank": "5",
+      "suit": "diamonds",
+      "file": "cards/faces/5_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "6D",
+      "rank": "6",
+      "suit": "diamonds",
+      "file": "cards/faces/6_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "7D",
+      "rank": "7",
+      "suit": "diamonds",
+      "file": "cards/faces/7_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "8D",
+      "rank": "8",
+      "suit": "diamonds",
+      "file": "cards/faces/8_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "9D",
+      "rank": "9",
+      "suit": "diamonds",
+      "file": "cards/faces/9_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "10D",
+      "rank": "10",
+      "suit": "diamonds",
+      "file": "cards/faces/10_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "JD",
+      "rank": "jack",
+      "suit": "diamonds",
+      "file": "cards/faces/jack_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "QD",
+      "rank": "queen",
+      "suit": "diamonds",
+      "file": "cards/faces/queen_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "KD",
+      "rank": "king",
+      "suit": "diamonds",
+      "file": "cards/faces/king_of_diamonds.svg",
+      "special": false
+    },
+    {
+      "id": "AC",
+      "rank": "ace",
+      "suit": "clubs",
+      "file": "cards/faces/ace_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "2C",
+      "rank": "2",
+      "suit": "clubs",
+      "file": "cards/faces/2_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "3C",
+      "rank": "3",
+      "suit": "clubs",
+      "file": "cards/faces/3_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "4C",
+      "rank": "4",
+      "suit": "clubs",
+      "file": "cards/faces/4_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "5C",
+      "rank": "5",
+      "suit": "clubs",
+      "file": "cards/faces/5_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "6C",
+      "rank": "6",
+      "suit": "clubs",
+      "file": "cards/faces/6_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "7C",
+      "rank": "7",
+      "suit": "clubs",
+      "file": "cards/faces/7_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "8C",
+      "rank": "8",
+      "suit": "clubs",
+      "file": "cards/faces/8_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "9C",
+      "rank": "9",
+      "suit": "clubs",
+      "file": "cards/faces/9_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "10C",
+      "rank": "10",
+      "suit": "clubs",
+      "file": "cards/faces/10_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "JC",
+      "rank": "jack",
+      "suit": "clubs",
+      "file": "cards/faces/jack_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "QC",
+      "rank": "queen",
+      "suit": "clubs",
+      "file": "cards/faces/queen_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "KC",
+      "rank": "king",
+      "suit": "clubs",
+      "file": "cards/faces/king_of_clubs.svg",
+      "special": false
+    },
+    {
+      "id": "AS",
+      "rank": "ace",
+      "suit": "spades",
+      "file": "cards/faces/ace_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "2S",
+      "rank": "2",
+      "suit": "spades",
+      "file": "cards/faces/2_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "3S",
+      "rank": "3",
+      "suit": "spades",
+      "file": "cards/faces/3_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "4S",
+      "rank": "4",
+      "suit": "spades",
+      "file": "cards/faces/4_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "5S",
+      "rank": "5",
+      "suit": "spades",
+      "file": "cards/faces/5_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "6S",
+      "rank": "6",
+      "suit": "spades",
+      "file": "cards/faces/6_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "7S",
+      "rank": "7",
+      "suit": "spades",
+      "file": "cards/faces/7_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "8S",
+      "rank": "8",
+      "suit": "spades",
+      "file": "cards/faces/8_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "9S",
+      "rank": "9",
+      "suit": "spades",
+      "file": "cards/faces/9_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "10S",
+      "rank": "10",
+      "suit": "spades",
+      "file": "cards/faces/10_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "JS",
+      "rank": "jack",
+      "suit": "spades",
+      "file": "cards/faces/jack_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "QS",
+      "rank": "queen",
+      "suit": "spades",
+      "file": "cards/faces/queen_of_spades.svg",
+      "special": false
+    },
+    {
+      "id": "KS",
+      "rank": "king",
+      "suit": "spades",
+      "file": "cards/faces/king_of_spades.svg",
+      "special": false
     }
-  ]
+  ],
+  "backs": [
+    {
+      "id": "back-midnight-rose",
+      "file": "cards/backs/back-midnight-rose.svg"
+    },
+    {
+      "id": "back-crimson-velvet",
+      "file": "cards/backs/back-crimson-velvet.svg"
+    },
+    {
+      "id": "back-celestial",
+      "file": "cards/backs/back-celestial.svg"
+    }
+  ],
+  "roses": [
+    {
+      "id": "rose-red",
+      "file": "roses/rose-red.svg"
+    },
+    {
+      "id": "rose-blush",
+      "file": "roses/rose-blush.svg"
+    },
+    {
+      "id": "rose-ivory",
+      "file": "roses/rose-ivory.svg"
+    },
+    {
+      "id": "rose-gold",
+      "file": "roses/rose-gold.svg"
+    },
+    {
+      "id": "rosebud",
+      "file": "roses/rosebud.svg"
+    },
+    {
+      "id": "rose-long-stem",
+      "file": "roses/rose-long-stem.svg"
+    },
+    {
+      "id": "petals-scatter",
+      "file": "roses/petals-scatter.svg"
+    },
+    {
+      "id": "bouquet",
+      "file": "roses/bouquet.svg"
+    },
+    {
+      "id": "vine-divider",
+      "file": "roses/vine-divider.svg"
+    }
+  ],
+  "css": "../magic.css"
 }
