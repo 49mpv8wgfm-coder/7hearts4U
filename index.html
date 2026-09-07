@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>7&#9829; &middot; Seven Hearts</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#7a0e1d">
+<meta property="og:title" content="You've been dealt in.">
+<meta property="og:description" content="7&#9829; &middot; seven hearts">
+<meta property="og:image" content="assets/meta/og-image.jpg">
+<link rel="icon" href="assets/meta/icon-192.png">
+<link rel="apple-touch-icon" href="assets/meta/icon-192.png">
+<link rel="manifest" href="assets/meta/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="hud">
+  <div class="brand">7<span class="heartbeat suit">&#9829;</span></div>
+  <div class="pips" id="pips" aria-label="progress"></div>
+</header>
+
+<main class="table">
+  <section class="intro" id="intro">
+    <div class="card intro-card" id="introCard">
+      <div class="flip"><div class="face front"><img class="art" id="introBack" alt="Card back"></div></div>
+    </div>
+    <p class="intro-hint deboss">tap to flip</p>
+  </section>
+
+  <section class="deck" id="deck" hidden></section>
+
+  <div class="joker-overlay" id="jokerOverlay" hidden>
+    <div class="joker-rain" id="jokerRain"></div>
+    <div class="joker-msg wobble" id="jokerMsg"></div>
+  </div>
+
+  <section class="finale" id="finale" hidden>
+    <canvas id="petals"></canvas>
+    <div class="final-card" id="finalCard">
+      <img id="roseHero" class="rose" alt="A rose">
+      <p class="final-msg foil" id="finalMsg"></p>
+      <p class="final-sign deboss" id="finalSign"></p>
+      <button class="replay" id="replay">Shuffle &amp; deal again</button>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" hidden></div>
+<script src="js/app.js"></script>
+</body>
+</html>
