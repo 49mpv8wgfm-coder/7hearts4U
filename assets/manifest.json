@@ -32,6 +32,13 @@
     "message": "The magician made your card appear in his pocket. You made the whole evening look effortless. Thank you.",
     "sign": "— your plus-one ♥"
   },
+  "cta": {
+    "question": "If I can score us tickets to Kanye West in Dallas… would you come with me?",
+    "yes": "Yes",
+    "errTitle": "ERR 500 · HEARTS_OVERFLOW",
+    "errMsg": "Your answer is too important to be processed by an app that was vibe-coded in a weekend.",
+    "errHint": "Please tell him in person. ♥"
+  },
   "jokerLines": [
     "You must be a joker! 🃏",
     "The deck has voted. Motion denied.",

@@ -24,6 +24,8 @@
 
 <button type="button" class="music off" id="btnMusic" hidden aria-label="Music">&#9834;</button>
 
+<canvas id="petals"></canvas>
+
 <main class="table">
   <section class="intro" id="intro">
     <div class="card intro-card" id="introCard">
@@ -45,12 +47,25 @@
   </div>
 
   <section class="finale" id="finale" hidden>
-    <canvas id="petals"></canvas>
     <div class="final-card" id="finalCard">
       <img id="roseHero" class="rose" alt="A rose">
       <p class="final-msg foil" id="finalMsg"></p>
       <p class="final-sign deboss" id="finalSign"></p>
       <button class="replay" id="replay">Shuffle & deal again</button>
+      <button class="replay bonus" id="more" hidden>Deal one more&#8230;</button>
+    </div>
+  </section>
+
+  <section class="cta" id="cta" hidden>
+    <div class="cta-card" id="ctaCard">
+      <p class="cta-kicker">one last card &middot; dealt from the bottom of the deck</p>
+      <p class="cta-q foil" id="ctaQ"></p>
+      <button class="cta-yes" id="ctaYes">Yes</button>
+    </div>
+    <div class="cta-error" id="ctaError" hidden>
+      <p class="err-code" id="errTitle"></p>
+      <p class="err-msg" id="errMsg"></p>
+      <p class="err-hint" id="errHint"></p>
     </div>
   </section>
 </main>

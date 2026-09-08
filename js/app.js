@@ -1,6 +1,6 @@
 "use strict";
 
-const DEFAULT_MANIFEST = {"meta": {"title": "7♥ — Seven Hearts", "stat": "Reception MVP · ♥♥♥♥♥♥♥ / 7", "bakedRanks": true}, "back": "OldDemo/assets/back-crimson-velvet.svg", "jokers": ["assets/cards/joker-a.svg", "assets/cards/joker-b.svg", "assets/cards/joker-c.svg"], "audio": ["assets/audio/track-a.mp3", "assets/audio/track-b.mp3", "assets/audio/track-c.mp3"], "fx": {"felt": "assets/fx/felt-table.svg", "grain": "assets/fx/paper-grain.svg", "rose": "OldDemo/assets/rose-red.svg", "petals": ["assets/fx/petal-1.svg", "assets/fx/petal-2.svg", "assets/fx/petal-3.svg", "assets/fx/petal-4.svg", "assets/fx/petal-5.svg"]}, "finale": {"message": "The magician made your card appear in his pocket. You made the whole evening look effortless. Thank you.", "sign": "— your plus-one ♥"}, "jokerLines": ["You must be a joker! 🃏", "The deck has voted. Motion denied.", "Jokers only. Try the other way →"], "toasts": ["Nice try.", "Still no.", "The hearts are watching."], "cards": [{"rank": "A", "img": "OldDemo/assets/ace_of_hearts.svg", "tag": "#FirstTimeCEO", "quip": "Boss of the boardroom, queen of the reception."}, {"rank": "2", "img": "OldDemo/assets/2_of_hearts.svg", "tag": "#WitConfirmed", "quip": "Five minutes in: certification renewed."}, {"rank": "3", "img": "OldDemo/assets/3_of_hearts.svg", "tag": "#EyesThatBeLashin", "quip": "Objection overruled. The lashes stand."}, {"rank": "4", "img": "OldDemo/assets/4_of_hearts.svg", "tag": "#CalculusOfCuteitude", "quip": "Ran the numbers. The math checks out."}, {"rank": "5", "img": "OldDemo/assets/5_of_hearts.svg", "tag": "#GorgeousAndCurious", "quip": "A rare and dangerous combination."}, {"rank": "6", "img": "OldDemo/assets/6_of_hearts.svg", "tag": "#TakingTheReigns", "quip": "Courage looks good on you."}, {"rank": "7", "img": "OldDemo/assets/7_of_hearts.svg", "tag": "#ExceptionalCompany", "quip": "Of all the cards in the deck…"}]};
+const DEFAULT_MANIFEST = {"meta": {"title": "7♥ — Seven Hearts", "stat": "Reception MVP · ♥♥♥♥♥♥♥ / 7", "bakedRanks": true}, "back": "OldDemo/assets/back-crimson-velvet.svg", "jokers": ["assets/cards/joker-a.svg", "assets/cards/joker-b.svg", "assets/cards/joker-c.svg"], "audio": ["assets/audio/track-a.mp3", "assets/audio/track-b.mp3", "assets/audio/track-c.mp3"], "fx": {"felt": "assets/fx/felt-table.svg", "grain": "assets/fx/paper-grain.svg", "rose": "OldDemo/assets/rose-red.svg", "petals": ["assets/fx/petal-1.svg", "assets/fx/petal-2.svg", "assets/fx/petal-3.svg", "assets/fx/petal-4.svg", "assets/fx/petal-5.svg"]}, "finale": {"message": "The magician made your card appear in his pocket. You made the whole evening look effortless. Thank you.", "sign": "— your plus-one ♥"}, "cta": {"question": "If I can score us tickets to Kanye West in Dallas… would you come with me?", "yes": "Yes", "errTitle": "ERR 500 · HEARTS_OVERFLOW", "errMsg": "Your answer is too important to be processed by an app that was vibe-coded in a weekend.", "errHint": "Please tell him in person. ♥"}, "jokerLines": ["You must be a joker! 🃏", "The deck has voted. Motion denied.", "Jokers only. Try the other way →"], "toasts": ["Nice try.", "Still no.", "The hearts are watching."], "cards": [{"rank": "A", "img": "OldDemo/assets/ace_of_hearts.svg", "tag": "#FirstTimeCEO", "quip": "Boss of the boardroom, queen of the reception."}, {"rank": "2", "img": "OldDemo/assets/2_of_hearts.svg", "tag": "#WitConfirmed", "quip": "Five minutes in: certification renewed."}, {"rank": "3", "img": "OldDemo/assets/3_of_hearts.svg", "tag": "#EyesThatBeLashin", "quip": "Objection overruled. The lashes stand."}, {"rank": "4", "img": "OldDemo/assets/4_of_hearts.svg", "tag": "#CalculusOfCuteitude", "quip": "Ran the numbers. The math checks out."}, {"rank": "5", "img": "OldDemo/assets/5_of_hearts.svg", "tag": "#GorgeousAndCurious", "quip": "A rare and dangerous combination."}, {"rank": "6", "img": "OldDemo/assets/6_of_hearts.svg", "tag": "#TakingTheReigns", "quip": "Courage looks good on you."}, {"rank": "7", "img": "OldDemo/assets/7_of_hearts.svg", "tag": "#ExceptionalCompany", "quip": "Of all the cards in the deck…"}]};
 
 const $ = s => document.querySelector(s);
 const els = {
@@ -9,7 +9,11 @@ const els = {
   jokerOverlay: $("#jokerOverlay"), jokerRain: $("#jokerRain"),
   jokerMsg: $("#jokerMsg"), finale: $("#finale"), petals: $("#petals"),
   finalCard: $("#finalCard"), finalMsg: $("#finalMsg"), finalSign: $("#finalSign"),
-  roseHero: $("#roseHero"), replay: $("#replay"), toast: $("#toast"),
+  roseHero: $("#roseHero"), replay: $("#replay"), more: $("#more"),
+  cta: $("#cta"), ctaCard: $("#ctaCard"), ctaError: $("#ctaError"),
+  ctaQ: $("#ctaQ"), ctaYes: $("#ctaYes"),
+  errTitle: $("#errTitle"), errMsg: $("#errMsg"), errHint: $("#errHint"),
+  toast: $("#toast"),
   controls: $("#controls"), btnNo: $("#btnNo"), btnInfo: $("#btnInfo"), btnYes: $("#btnYes"),
   btnMusic: $("#btnMusic")
 };
@@ -29,9 +33,18 @@ async function boot(){
   els.roseHero.src = M.fx.rose;
   els.finalMsg.textContent = M.finale.message;
   els.finalSign.textContent = M.finale.sign;
+  if (M.cta){
+    els.ctaQ.textContent = M.cta.question;
+    els.ctaYes.textContent = M.cta.yes || "Yes";
+    els.errTitle.textContent = M.cta.errTitle;
+    els.errMsg.textContent = M.cta.errMsg;
+    els.errHint.textContent = M.cta.errHint;
+  }
   buildPips(); preload(); wireControls(); wireKeyboard(); initMusic();
   els.introCard.addEventListener("click", onIntroTap);
   els.replay.addEventListener("click", reset);
+  els.more.addEventListener("click", showCta);
+  els.ctaYes.addEventListener("click", answerCta);
 }
 
 async function initMusic(){
@@ -327,9 +340,33 @@ function finale(){
   els.deck.hidden = true;
   els.controls.hidden = true;
   els.finale.hidden = false;
-  if (REDUCED){ els.finalCard.classList.add("show"); return; }
+  if (REDUCED){
+    els.finalCard.classList.add("show");
+    els.more.hidden = false;
+    return;
+  }
   burst();
   setTimeout(()=> els.finalCard.classList.add("show"), 650);
+  setTimeout(()=>{ els.more.hidden = false; requestAnimationFrame(()=> els.more.classList.add("show")); }, 2600);
+}
+
+function showCta(){
+  els.finale.hidden = true;
+  els.cta.hidden = false;
+  els.ctaError.hidden = true;
+  els.ctaCard.hidden = false;
+  els.ctaCard.classList.remove("show");
+  requestAnimationFrame(()=> els.ctaCard.classList.add("show"));
+}
+
+function answerCta(){
+  els.ctaCard.hidden = true;
+  els.ctaError.hidden = false;
+  els.ctaError.classList.remove("show");
+  const reveal = ()=> requestAnimationFrame(()=> els.ctaError.classList.add("show"));
+  if (REDUCED){ reveal(); return; }
+  burst();
+  setTimeout(reveal, 450);
 }
 
 function burst(){
@@ -378,6 +415,12 @@ function reset(){
   idx = 0; gagCount = 0; busy = false;
   els.finale.hidden = true;
   els.finalCard.classList.remove("show");
+  els.more.hidden = true;
+  els.more.classList.remove("show");
+  els.cta.hidden = true;
+  els.ctaCard.classList.remove("show");
+  els.ctaError.classList.remove("show");
+  els.ctaError.hidden = true;
   els.petals.style.opacity = 1;
   els.deck.hidden = true;
   els.controls.hidden = true;
