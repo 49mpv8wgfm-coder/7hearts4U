@@ -11,6 +11,11 @@
     "assets/cards/joker-b.svg",
     "assets/cards/joker-c.svg"
   ],
+  "audio": [
+    "assets/audio/track-a.mp3",
+    "assets/audio/track-b.mp3",
+    "assets/audio/track-c.mp3"
+  ],
   "fx": {
     "felt": "assets/fx/felt-table.svg",
     "grain": "assets/fx/paper-grain.svg",

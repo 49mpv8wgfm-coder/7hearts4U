@@ -27,6 +27,21 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
 .pips span.on{color:var(--gold-l); animation:pop .45s cubic-bezier(.2,.9,.3,1.6)}
 @keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.35)}100%{transform:scale(1)}}
 
+/* ---------- Music button ---------- */
+.music{position:fixed; right:16px; top:calc(env(safe-area-inset-top) + 62px); z-index:25;
+  width:42px; height:42px; border-radius:50%; cursor:pointer;
+  border:1.5px solid rgba(232,180,76,.6); background:rgba(20,64,44,.82);
+  color:var(--gold-l); font-family:var(--serif); font-weight:700; font-size:1.05rem;
+  backdrop-filter:blur(6px); box-shadow:0 4px 14px rgba(0,0,0,.3);
+  touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+  transition:transform .15s ease, opacity .3s ease}
+.music:active{transform:scale(.9)}
+.music.off{opacity:.5}
+.music.on{opacity:1; box-shadow:0 0 12px rgba(232,180,76,.4);
+  animation:musicPulse 2.6s ease-in-out infinite}
+@keyframes musicPulse{0%,100%{box-shadow:0 0 8px rgba(232,180,76,.25)}
+  50%{box-shadow:0 0 16px rgba(232,180,76,.55)}}
+
 /* ---------- Table & cards ---------- */
 .table{position:fixed; inset:0}
 .intro,.deck{position:fixed; inset:0; display:grid; place-items:center}
@@ -145,8 +160,6 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
 .chip.big{font-size:1.15rem; background:var(--crimson-d); color:var(--gold-l)}
 .backface .quip{font-family:var(--serif); font-style:italic; font-size:1.35rem; min-height:2.4em}
 .backface .stat{font-size:.85rem; letter-spacing:.08em}
-.backface .foot{position:absolute; bottom:12px; left:0; right:0; font-size:.62rem;
-  letter-spacing:.14em}
 .stamp{position:absolute; top:16%; font-family:var(--serif); font-weight:700;
   font-size:1.4rem; letter-spacing:.14em; padding:.18em .6em; border:3px solid;
   border-radius:10px; opacity:0; pointer-events:none; z-index:3}
@@ -226,6 +239,7 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
   .caption .quip-front{font-size:.94rem}
   .caption::before{top:-16px; height:16px}
   .caption::after{top:-24px; font-size:.62rem}
+  .music{width:38px; height:38px; font-size:.95rem; top:calc(env(safe-area-inset-top) + 56px)}
 }
 @media (min-width:768px){
   .card{width:min(60vw,360px)}
@@ -235,6 +249,6 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
   .foil,.rank{animation:none; background-position:50% 0}
   .deal-in span{animation:none; opacity:1; transform:none}
   .heartbeat,.wobble,.rank.big::after,.chip::after,.intro-card,.card.deny,
-  .caption::after,.caption.reveal{animation:none}
+  .caption::after,.caption.reveal,.music.on{animation:none}
   .joker-rain img{animation-duration:.5s}
 }

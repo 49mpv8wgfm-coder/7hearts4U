@@ -1,6 +1,6 @@
 "use strict";
 
-const DEFAULT_MANIFEST = {"meta": {"title": "7♥ — Seven Hearts", "stat": "Reception MVP · ♥♥♥♥♥♥♥ / 7", "bakedRanks": true}, "back": "OldDemo/assets/back-crimson-velvet.svg", "jokers": ["assets/cards/joker-a.svg", "assets/cards/joker-b.svg", "assets/cards/joker-c.svg"], "fx": {"felt": "assets/fx/felt-table.svg", "grain": "assets/fx/paper-grain.svg", "rose": "OldDemo/assets/rose-red.svg", "petals": ["assets/fx/petal-1.svg", "assets/fx/petal-2.svg", "assets/fx/petal-3.svg", "assets/fx/petal-4.svg", "assets/fx/petal-5.svg"]}, "finale": {"message": "The magician made your card appear in his pocket. You made the whole evening look effortless. Thank you.", "sign": "— your plus-one ♥"}, "jokerLines": ["You must be a joker! 🃏", "The deck has voted. Motion denied.", "Jokers only. Try the other way →"], "toasts": ["Nice try.", "Still no.", "The hearts are watching."], "cards": [{"rank": "A", "img": "OldDemo/assets/ace_of_hearts.svg", "tag": "#FirstTimeCEO", "quip": "Boss of the boardroom, queen of the reception."}, {"rank": "2", "img": "OldDemo/assets/2_of_hearts.svg", "tag": "#WitConfirmed", "quip": "Five minutes in: certification renewed."}, {"rank": "3", "img": "OldDemo/assets/3_of_hearts.svg", "tag": "#EyesThatBeLashin", "quip": "Objection overruled. The lashes stand."}, {"rank": "4", "img": "OldDemo/assets/4_of_hearts.svg", "tag": "#CalculusOfCuteitude", "quip": "Ran the numbers. The math checks out."}, {"rank": "5", "img": "OldDemo/assets/5_of_hearts.svg", "tag": "#GorgeousAndCurious", "quip": "A rare and dangerous combination."}, {"rank": "6", "img": "OldDemo/assets/6_of_hearts.svg", "tag": "#TakingTheReigns", "quip": "Courage looks good on you."}, {"rank": "7", "img": "OldDemo/assets/7_of_hearts.svg", "tag": "#ExceptionalCompany", "quip": "Of all the cards in the deck…"}]};
+const DEFAULT_MANIFEST = {"meta": {"title": "7♥ — Seven Hearts", "stat": "Reception MVP · ♥♥♥♥♥♥♥ / 7", "bakedRanks": true}, "back": "OldDemo/assets/back-crimson-velvet.svg", "jokers": ["assets/cards/joker-a.svg", "assets/cards/joker-b.svg", "assets/cards/joker-c.svg"], "audio": ["assets/audio/track-a.mp3", "assets/audio/track-b.mp3", "assets/audio/track-c.mp3"], "fx": {"felt": "assets/fx/felt-table.svg", "grain": "assets/fx/paper-grain.svg", "rose": "OldDemo/assets/rose-red.svg", "petals": ["assets/fx/petal-1.svg", "assets/fx/petal-2.svg", "assets/fx/petal-3.svg", "assets/fx/petal-4.svg", "assets/fx/petal-5.svg"]}, "finale": {"message": "The magician made your card appear in his pocket. You made the whole evening look effortless. Thank you.", "sign": "— your plus-one ♥"}, "jokerLines": ["You must be a joker! 🃏", "The deck has voted. Motion denied.", "Jokers only. Try the other way →"], "toasts": ["Nice try.", "Still no.", "The hearts are watching."], "cards": [{"rank": "A", "img": "OldDemo/assets/ace_of_hearts.svg", "tag": "#FirstTimeCEO", "quip": "Boss of the boardroom, queen of the reception."}, {"rank": "2", "img": "OldDemo/assets/2_of_hearts.svg", "tag": "#WitConfirmed", "quip": "Five minutes in: certification renewed."}, {"rank": "3", "img": "OldDemo/assets/3_of_hearts.svg", "tag": "#EyesThatBeLashin", "quip": "Objection overruled. The lashes stand."}, {"rank": "4", "img": "OldDemo/assets/4_of_hearts.svg", "tag": "#CalculusOfCuteitude", "quip": "Ran the numbers. The math checks out."}, {"rank": "5", "img": "OldDemo/assets/5_of_hearts.svg", "tag": "#GorgeousAndCurious", "quip": "A rare and dangerous combination."}, {"rank": "6", "img": "OldDemo/assets/6_of_hearts.svg", "tag": "#TakingTheReigns", "quip": "Courage looks good on you."}, {"rank": "7", "img": "OldDemo/assets/7_of_hearts.svg", "tag": "#ExceptionalCompany", "quip": "Of all the cards in the deck…"}]};
 
 const $ = s => document.querySelector(s);
 const els = {
@@ -10,13 +10,16 @@ const els = {
   jokerMsg: $("#jokerMsg"), finale: $("#finale"), petals: $("#petals"),
   finalCard: $("#finalCard"), finalMsg: $("#finalMsg"), finalSign: $("#finalSign"),
   roseHero: $("#roseHero"), replay: $("#replay"), toast: $("#toast"),
-  controls: $("#controls"), btnNo: $("#btnNo"), btnInfo: $("#btnInfo"), btnYes: $("#btnYes")
+  controls: $("#controls"), btnNo: $("#btnNo"), btnInfo: $("#btnInfo"), btnYes: $("#btnYes"),
+  btnMusic: $("#btnMusic")
 };
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let M = null, idx = 0, gagCount = 0, busy = false;
 let cardEls = [], petalImgs = [];
 let g = null, lastTouch = 0;
+
+const music = { tracks: [], labels: [], idx: -1, el: null };
 
 async function boot(){
   try { const r = await fetch("assets/manifest.json", {cache:"no-store"}); M = await r.json(); }
@@ -26,9 +29,50 @@ async function boot(){
   els.roseHero.src = M.fx.rose;
   els.finalMsg.textContent = M.finale.message;
   els.finalSign.textContent = M.finale.sign;
-  buildPips(); preload(); wireControls(); wireKeyboard();
+  buildPips(); preload(); wireControls(); wireKeyboard(); initMusic();
   els.introCard.addEventListener("click", onIntroTap);
   els.replay.addEventListener("click", reset);
+}
+
+async function initMusic(){
+  if (!M.audio || !M.audio.length) return;
+  const checks = await Promise.all(M.audio.map(u =>
+    fetch(u, {method:"HEAD", cache:"no-store"})
+      .then(r => r.ok).catch(() => false)));
+  M.audio.forEach((u,i)=>{
+    if (checks[i]){
+      music.tracks.push(u);
+      music.labels.push("ABC"[i] || String(i+1));
+    }
+  });
+  if (!music.tracks.length) return;
+  els.btnMusic.hidden = false;
+  els.btnMusic.addEventListener("click", cycleMusic);
+}
+
+function cycleMusic(){
+  if (music.el){ music.el.pause(); }
+  music.idx = (music.idx + 1) % (music.tracks.length + 1);
+  if (music.idx === music.tracks.length){
+    music.idx = -1;
+    els.btnMusic.textContent = "\u266A";
+    els.btnMusic.classList.remove("on");
+    els.btnMusic.classList.add("off");
+    toast("Music off");
+    return;
+  }
+  if (!music.el){
+    music.el = new Audio();
+    music.el.loop = true;
+    music.el.volume = .55;
+  }
+  music.el.src = music.tracks[music.idx];
+  const p = music.el.play();
+  if (p) p.catch(()=>{});
+  els.btnMusic.textContent = music.labels[music.idx];
+  els.btnMusic.classList.remove("off");
+  els.btnMusic.classList.add("on");
+  toast("Track " + music.labels[music.idx]);
 }
 
 function onIntroTap(){
@@ -75,6 +119,7 @@ function wireKeyboard(){
       if (el.classList.contains("flipped")) el.classList.remove("flipped"); else flipUp(el);
     }
     else if (e.key === "Escape") el.classList.remove("flipped");
+    else if (e.key === "m") cycleMusic();
   });
 }
 
