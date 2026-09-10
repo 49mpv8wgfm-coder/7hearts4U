@@ -42,8 +42,8 @@ body::after{content:""; position:fixed; inset:0; pointer-events:none;
 @keyframes musicPulse{0%,100%{box-shadow:0 0 8px rgba(232,180,76,.25)}
   50%{box-shadow:0 0 16px rgba(232,180,76,.55)}}
 
-/* ---------- Petal layer (shared) ---------- */
-#petals{position:fixed; inset:0; z-index:34; width:100%; height:100%}
+/* ---------- Petal layer (shared, purely visual — never catches taps) ---------- */
+#petals{position:fixed; inset:0; z-index:34; width:100%; height:100%; pointer-events:none}
 
 /* ---------- Table & cards ---------- */
 .table{position:fixed; inset:0}
